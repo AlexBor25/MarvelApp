@@ -1,18 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { getAllCharacters } from '../../redux/actionCreators/asyncActionCreator';
+import {
+  addChars,
+  getAllCharacters,
+  getChar,
+} from '../../redux/actionCreators/asyncActionCreator';
 
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
+import Error from '../error/Error';
 
 const CharList = () => {
   const dispatch = useDispatch();
 
-  const { loading, results } = useSelector((state) => ({
-    loading: state.characters.loading,
-    results: state.characters.results,
-  }));
+  const { loading, results, offset, newCharsLoading, charsEnded, activeChar } =
+    useSelector((state) => {
+      console.log(state);
+      return {
+        loading: state.characters.loading,
+        results: state.characters.results,
+        offset: state.characters.offset,
+        newCharsLoading: state.characters.newCharsLoading,
+        charsEnded: state.characters.charsEnded,
+        activeChar: state.characters.activeChar,
+      };
+    });
 
   useEffect(() => {
     dispatch(getAllCharacters());
@@ -20,9 +33,21 @@ const CharList = () => {
   }, []);
 
   const charsItems = results.map(({ name, id, thumbnail }) => {
+    let activeClass = 'char__item char__item';
+
+    if (activeChar === name) {
+      activeClass += '_selected';
+    }
+
     const { path, extension } = thumbnail;
+
     return (
-      <li key={id} className='char__item char__item_selected'>
+      <li
+        onClick={() => dispatch(getChar(id))}
+        key={id}
+        tabIndex={0}
+        className={activeClass}
+      >
         <img src={`${path}.${extension}`} alt={name} />
         <div className='char__name'>{name}</div>
       </li>
@@ -33,10 +58,16 @@ const CharList = () => {
 
   return (
     <div className='char__list'>
-      <ul className='char__grid'>{charsItems}</ul>
-      <button className='button button__main button__long'>
-        <div className='inner'>load more</div>
-      </button>
+      <ul className='char__grid'>{!results.length ? <Error /> : charsItems}</ul>
+      {!charsEnded && (
+        <button
+          disabled={newCharsLoading}
+          onClick={() => dispatch(addChars(offset + 9))}
+          className='button button__main button__long'
+        >
+          <div className='inner'>load more</div>
+        </button>
+      )}
     </div>
   );
 };
