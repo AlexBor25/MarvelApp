@@ -5,7 +5,6 @@ import {
   GET_ALL_CHARS,
   GET_RANDOM_CHAR,
   GET_SELECTED_CHAR,
-  LOADING_ALL_CHARS,
   LOADING_RANDOM_CHAR,
   LOADING_SELECTED_CHAR,
   RANDOM_CHAR_ERROR,
@@ -13,7 +12,7 @@ import {
 } from '../actions/actions';
 
 const initialState = {
-  loading: false,
+  loading: true,
   charsEnded: false,
   newCharsLoading: false,
   results: [],
@@ -50,8 +49,6 @@ const initialState = {
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_ALL_CHARS:
-      return { ...state, loading: true };
     case GET_ALL_CHARS:
       return {
         ...state,

@@ -5,7 +5,7 @@ import {
   addChars,
   getAllCharacters,
   getChar,
-} from '../../redux/actionCreators/asyncActionCreator';
+} from '../../redux/actionCreators/asyncActionCreators/charAction';
 
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
@@ -15,17 +15,14 @@ const CharList = () => {
   const dispatch = useDispatch();
 
   const { loading, results, offset, newCharsLoading, charsEnded, activeChar } =
-    useSelector((state) => {
-      console.log(state);
-      return {
-        loading: state.characters.loading,
-        results: state.characters.results,
-        offset: state.characters.offset,
-        newCharsLoading: state.characters.newCharsLoading,
-        charsEnded: state.characters.charsEnded,
-        activeChar: state.characters.activeChar,
-      };
-    });
+    useSelector((state) => ({
+      loading: state.characters.loading,
+      results: state.characters.results,
+      offset: state.characters.offset,
+      newCharsLoading: state.characters.newCharsLoading,
+      charsEnded: state.characters.charsEnded,
+      activeChar: state.characters.activeChar,
+    }));
 
   useEffect(() => {
     dispatch(getAllCharacters());

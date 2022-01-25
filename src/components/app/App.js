@@ -1,23 +1,23 @@
-import AppHeader from '../appHeader/AppHeader';
-import RandomChar from '../randomChar/RandomChar';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import decoration from '../../resources/img/vision.png';
+import AppHeader from '../appHeader/AppHeader';
+import { CharsPage, ComicsPage, NotFound, SingleComic } from '../../pages';
 
 const App = () => {
   return (
-    <div className='app'>
-      <AppHeader />
-      <main>
-        <RandomChar />
-        <div className='char__content'>
-          <CharList />
-          <CharInfo />
-        </div>
-        <img className='bg-decoration' src={decoration} alt='vision' />
-      </main>
-    </div>
+    <Router>
+      <div className='app'>
+        <AppHeader />
+        <main>
+          <Routes>
+            <Route path='/' element={<CharsPage />} />
+            <Route path='/comics' element={<ComicsPage />} />
+            <Route path='/comics/:id' element={<SingleComic />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 };
 

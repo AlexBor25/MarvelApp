@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 import './randomChar.scss';
-import { getRandomChar } from '../../redux/actionCreators/asyncActionCreator';
+import { getRandomChar } from '../../redux/actionCreators/asyncActionCreators/charAction';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { getRandomId } from '../../utils/getRandomId';
 import RandomCharBlock from './components/RandomCharBlock/RandomCharBlock';

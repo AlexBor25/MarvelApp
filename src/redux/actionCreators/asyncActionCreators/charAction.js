@@ -3,28 +3,24 @@ import {
   GET_ALL_CHARS,
   GET_RANDOM_CHAR,
   GET_SELECTED_CHAR,
-} from '../actions/actions';
-import { URL, API_KEY } from '../constants';
+} from '../../actions/actions';
+import { URL, API_KEY } from '../../constants';
 import {
   addCharsLoading,
-  allCharsLoading,
   charsEnded,
   loadingRandomChar,
   loadingSelectedChar,
   randomCharError,
   selectedCharError,
-} from './actionCreator';
+} from '../actionCreator';
 
 export const getAllCharacters = () => async (dispatch) => {
   try {
-    dispatch(allCharsLoading());
-
     const res = await fetch(`${URL}characters?${API_KEY}&limit=9&offset=210`);
 
     if (!res.ok) throw new Error(`Произошла ошибка, код: ${res.status}`);
 
     const data = await res.json();
-    console.log(data);
 
     if (res.ok) dispatch({ type: GET_ALL_CHARS, payload: data.data });
   } catch {}
